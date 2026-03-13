@@ -1,6 +1,9 @@
-<?php 
+<?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-Route::get('/user',[UserController::class,'getAllUser']);
-?>
+use Illuminate\Support\Facades\Route;
+
+Route::get('/user', [UserController::class, 'getAllUser']);
+Route::get('/test', function () {
+    return "API working";
+});

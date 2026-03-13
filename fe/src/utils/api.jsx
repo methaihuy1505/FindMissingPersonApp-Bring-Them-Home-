@@ -1,4 +1,4 @@
-import axios from "../utils/axios";
+import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://findmissingpersonapp-bring-them-home.onrender.com/api",
