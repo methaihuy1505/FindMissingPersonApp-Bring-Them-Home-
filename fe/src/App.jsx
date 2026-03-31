@@ -19,6 +19,8 @@ import UserManager from "./pages/Admin/UserManager";
 import PostManager from "./pages/Admin/PostManager";
 import Navbar from "./components/Layout/Navbar";
 import AdminSidebar from "./components/Layout/AdminSidebar";
+import MyPosts from "./pages/MyPosts";
+import Profile from "./pages/Profile";
 
 // 1. Chỉ cho người đã đăng nhập vào (User & Admin)
 const PrivateRoute = ({ children }) => {
@@ -56,7 +58,22 @@ function App() {
               </PrivateRoute>
             }
           />
-
+          <Route
+            path="/my-posts"
+            element={
+              <PrivateRoute>
+                <MyPosts />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           {/* ================= ADMIN ROUTES (Yêu cầu Admin Role) ================= */}
           <Route
             path="/admin"

@@ -1,0 +1,533 @@
+name: 'Quản lý hồ sơ người mất tích'
+description: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/missing-persons
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Danh sách hồ sơ
+        * Lấy toàn bộ danh sách người mất tích, mặc định sắp xếp theo tin mới nhất.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      status:
+        custom: []
+        name: status
+        description: "Lọc theo trạng thái ('missing', 'found' hoặc 'all')."
+        required: false
+        example: missing
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      status: missing
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '[{"id":10,"full_name":"c\u00f4 b\u00e9 b\u00e1n di\u00eam","gender":"female","birth_date":null,"last_seen_date":"2026-03-30","last_seen_location":"c\u00f4ng vi\u00ean qu\u1eadn 1","description":"cao 1m5","status":"missing","created_by":11,"created_at":"2026-03-31 16:16:59","updated_at":"2026-03-31 16:16:59","images":[{"id":8,"missing_person_id":10,"image_url":"https:\/\/cdn.baohatinh.vn\/images\/4fcbd37d77834e81989cc9830f65b41a8914df4a745ff7c7f6b5d0d9fc878fbf93a484348654a2504a80cf66f8cca6ec\/127d1100219t99411l0.jpg","uploaded_at":"2026-03-31 16:16:59","updated_at":"2026-03-31 16:16:59","created_at":"2026-03-31 16:16:59"}]},{"id":8,"full_name":"Ha Van C","gender":"other","birth_date":null,"last_seen_date":"2026-01-28","last_seen_location":"Amazon","description":null,"status":"missing","created_by":10,"created_at":"2026-03-31 12:49:08","updated_at":"2026-03-31 16:40:12","images":[{"id":6,"missing_person_id":8,"image_url":"https:\/\/cdn2.tuoitre.vn\/2019\/5\/8\/avatar-publicitystill-h2019-1557284559744252594756.jpg","uploaded_at":"2026-03-31 12:49:09","updated_at":"2026-03-31 12:49:09","created_at":"2026-03-31 12:49:09"}]},{"id":1,"full_name":"Nguyen Van D","gender":"male","birth_date":"2004-05-15","last_seen_date":"2025-10-10","last_seen_location":"Ho Chi Minh City","description":"Last seen wearing blue shirt","status":"missing","created_by":null,"created_at":"2026-03-13 13:23:15","updated_at":"2026-03-31 17:14:08","images":[{"id":4,"missing_person_id":1,"image_url":"https:\/\/cafefcdn.com\/203337114487263232\/2024\/12\/11\/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png","uploaded_at":"2026-03-31 12:19:06","updated_at":"2026-03-31 12:19:06","created_at":"2026-03-31 12:19:06"}]},{"id":2,"full_name":"Tran Thi E","gender":"female","birth_date":null,"last_seen_date":"2025-09-15","last_seen_location":"Ha Noi","description":"Missing near bus station","status":"missing","created_by":2,"created_at":"2026-03-13 13:23:15","updated_at":"2026-03-31 07:45:18","images":[{"id":3,"missing_person_id":2,"image_url":"https:\/\/cafefcdn.com\/203337114487263232\/2024\/11\/25\/4675052799582946396645801877579821328676080n-1732499995523-1732499995682540076027.jpg","uploaded_at":"2026-03-31 12:18:15","updated_at":"2026-03-31 12:18:15","created_at":"2026-03-31 12:18:15"}]}]'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/missing-persons/{id}'
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Chi tiết hồ sơ
+        * Lấy thông tin chi tiết một hồ sơ kèm ảnh, người đăng và các manh mối liên quan.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của hồ sơ.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"id":1,"full_name":"Nguyen Van D","gender":"male","birth_date":"2004-05-15","last_seen_date":"2025-10-10","last_seen_location":"Ho Chi Minh City","description":"Last seen wearing blue shirt","status":"missing","created_by":null,"created_at":"2026-03-13 13:23:15","updated_at":"2026-03-31 17:14:08","creator":null,"images":[{"id":4,"missing_person_id":1,"image_url":"https:\/\/cafefcdn.com\/203337114487263232\/2024\/12\/11\/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png","uploaded_at":"2026-03-31 12:19:06","updated_at":"2026-03-31 12:19:06","created_at":"2026-03-31 12:19:06"}],"sightings":[{"id":1,"missing_person_id":1,"reported_by":2,"location":"District 1","description":"Looks similar to missing person","sighting_date":"2025-10-12","created_at":"2026-03-13 13:23:15","updated_at":"2026-03-31 07:44:43","reporter":{"id":2,"name":"Tran Thi B","email":"b@gmail.com","phone":"0900000002","role":"admin","created_at":"2026-03-13 13:23:15","updated_at":null}},{"id":2,"missing_person_id":1,"reported_by":null,"location":"District 3","description":"I saw someone looking like him near the park","sighting_date":"2026-03-31","created_at":"2026-03-31 09:27:29","updated_at":"2026-03-31 09:27:29","reporter":null},{"id":7,"missing_person_id":1,"reported_by":10,"location":"qu\u1eadn 8","description":"g\u1ea7n c\u1ea7u ch\u00e0 v\u00e0","sighting_date":"2026-03-29","created_at":"2026-03-31 10:20:19","updated_at":"2026-03-31 10:20:19","reporter":{"id":10,"name":"a","email":"admin@test.com","phone":"123","role":"admin","created_at":"2026-03-31 08:53:17","updated_at":null}},{"id":9,"missing_person_id":1,"reported_by":10,"location":"test","description":"test","sighting_date":"2026-04-01","created_at":"2026-03-31 10:23:05","updated_at":"2026-03-31 10:23:05","reporter":{"id":10,"name":"a","email":"admin@test.com","phone":"123","role":"admin","created_at":"2026-03-31 08:53:17","updated_at":null}},{"id":17,"missing_person_id":1,"reported_by":10,"location":"Iran","description":"\u0110ang va\u0301c t\u00ean l\u01b0\u0309a cha\u0323y va\u0300o nha\u0300","sighting_date":"2026-03-01","created_at":"2026-03-31 12:44:39","updated_at":"2026-03-31 12:44:39","reporter":{"id":10,"name":"a","email":"admin@test.com","phone":"123","role":"admin","created_at":"2026-03-31 08:53:17","updated_at":null}}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/my-missing-persons
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Bài đăng của tôi
+        * Lấy danh sách các hồ sơ do chính người dùng hiện tại đã đăng.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/missing-persons
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Đăng hồ sơ mới
+        * Lưu thông tin người mất tích và ảnh đính kèm (nếu có).
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      full_name:
+        custom: []
+        name: full_name
+        description: 'Họ và tên người cần tìm.'
+        required: true
+        example: 'Nguyễn Văn A'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      gender:
+        custom: []
+        name: gender
+        description: 'Giới tính (male, female, other).'
+        required: true
+        example: male
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      birth_date:
+        custom: []
+        name: birth_date
+        description: 'Ngày sinh (YYYY-MM-DD).'
+        required: false
+        example: '1995-05-20'
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      last_seen_date:
+        custom: []
+        name: last_seen_date
+        description: 'Ngày nhìn thấy lần cuối.'
+        required: false
+        example: '2024-01-15'
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      last_seen_location:
+        custom: []
+        name: last_seen_location
+        description: 'Vị trí cuối cùng nhìn thấy.'
+        required: true
+        example: 'Quận 1, TP.HCM'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: 'Đặc điểm nhận dạng hoặc thông tin mô tả.'
+        required: false
+        example: 'Cao 1m7, nốt ruồi bên trái.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      status:
+        custom: []
+        name: status
+        description: 'Trạng thái (missing hoặc found).'
+        required: false
+        example: missing
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      created_by:
+        custom: []
+        name: created_by
+        description: 'ID người đăng bài.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      image_url:
+        custom: []
+        name: image_url
+        description: 'Đường dẫn ảnh hồ sơ.'
+        required: false
+        example: 'https://example.com/photo.jpg'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      full_name: 'Nguyễn Văn A'
+      gender: male
+      birth_date: '1995-05-20'
+      last_seen_date: '2024-01-15'
+      last_seen_location: 'Quận 1, TP.HCM'
+      description: 'Cao 1m7, nốt ruồi bên trái.'
+      status: missing
+      created_by: 1
+      image_url: 'https://example.com/photo.jpg'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/missing-persons/{id}'
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Cập nhật hồ sơ
+        * Chỉnh sửa thông tin chi tiết của hồ sơ người mất tích.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của hồ sơ.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      full_name:
+        custom: []
+        name: full_name
+        description: 'Họ tên mới.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      gender:
+        custom: []
+        name: gender
+        description: 'Giới tính.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      birth_date:
+        custom: []
+        name: birth_date
+        description: 'Ngày sinh.'
+        required: false
+        example: architecto
+        type: date
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      last_seen_date:
+        custom: []
+        name: last_seen_date
+        description: 'Ngày nhìn thấy cuối.'
+        required: false
+        example: architecto
+        type: date
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      last_seen_location:
+        custom: []
+        name: last_seen_location
+        description: 'Địa điểm.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: 'Mô tả.'
+        required: false
+        example: 'Eius et animi quos velit et.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      status:
+        custom: []
+        name: status
+        description: 'Trạng thái (missing/found).'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      full_name: architecto
+      gender: architecto
+      birth_date: architecto
+      last_seen_date: architecto
+      last_seen_location: architecto
+      description: 'Eius et animi quos velit et.'
+      status: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/missing-persons/{id}/status'
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Cập nhật trạng thái Tìm thấy
+        * Đánh dấu hồ sơ này là đã tìm thấy (Found).
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của hồ sơ.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/missing-persons/{id}'
+    metadata:
+      custom: []
+      groupName: 'Quản lý hồ sơ người mất tích'
+      groupDescription: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Xóa hồ sơ
+        * Xóa vĩnh viễn hồ sơ và dữ liệu liên quan (Ảnh, Manh mối). Dành cho Admin.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của hồ sơ.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

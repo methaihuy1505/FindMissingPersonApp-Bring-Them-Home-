@@ -6,6 +6,7 @@ const personApi = {
   getDetail: (id) => axiosClient.get(`/missing-persons/${id}`),
 
   // Cần Token
+  getMyPosts: () => axiosClient.get("/my-missing-persons"),
   create: (data) => axiosClient.post("/missing-persons", data),
   update: (id, data) => axiosClient.put(`/missing-persons/${id}`, data),
   updateStatus: (id) => axiosClient.put(`/missing-persons/${id}/status`),

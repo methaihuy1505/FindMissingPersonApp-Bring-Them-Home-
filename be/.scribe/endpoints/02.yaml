@@ -1,0 +1,294 @@
+name: 'Manh mối (Sightings)'
+description: |-
+
+  API quản lý các thông tin manh mối nhìn thấy người mất tích từ cộng đồng.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/sightings/{person_id}'
+    metadata:
+      custom: []
+      groupName: 'Manh mối (Sightings)'
+      groupDescription: |-
+
+        API quản lý các thông tin manh mối nhìn thấy người mất tích từ cộng đồng.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Lấy manh mối theo người mất tích
+        * Lấy danh sách tất cả manh mối của một hồ sơ cụ thể.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      person_id:
+        custom: []
+        name: person_id
+        description: 'ID của hồ sơ người mất tích.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      person_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '[{"id":9,"missing_person_id":1,"reported_by":10,"location":"test","description":"test","sighting_date":"2026-04-01","created_at":"2026-03-31 10:23:05","updated_at":"2026-03-31 10:23:05","reporter":{"id":10,"name":"a","email":"admin@test.com","phone":"123","role":"admin","created_at":"2026-03-31 08:53:17","updated_at":null}},{"id":2,"missing_person_id":1,"reported_by":null,"location":"District 3","description":"I saw someone looking like him near the park","sighting_date":"2026-03-31","created_at":"2026-03-31 09:27:29","updated_at":"2026-03-31 09:27:29","reporter":null},{"id":7,"missing_person_id":1,"reported_by":10,"location":"qu\u1eadn 8","description":"g\u1ea7n c\u1ea7u ch\u00e0 v\u00e0","sighting_date":"2026-03-29","created_at":"2026-03-31 10:20:19","updated_at":"2026-03-31 10:20:19","reporter":{"id":10,"name":"a","email":"admin@test.com","phone":"123","role":"admin","created_at":"2026-03-31 08:53:17","updated_at":null}},{"id":17,"missing_person_id":1,"reported_by":10,"location":"Iran","description":"\u0110ang va\u0301c t\u00ean l\u01b0\u0309a cha\u0323y va\u0300o nha\u0300","sighting_date":"2026-03-01","created_at":"2026-03-31 12:44:39","updated_at":"2026-03-31 12:44:39","reporter":{"id":10,"name":"a","email":"admin@test.com","phone":"123","role":"admin","created_at":"2026-03-31 08:53:17","updated_at":null}},{"id":1,"missing_person_id":1,"reported_by":2,"location":"District 1","description":"Looks similar to missing person","sighting_date":"2025-10-12","created_at":"2026-03-13 13:23:15","updated_at":"2026-03-31 07:44:43","reporter":{"id":2,"name":"Tran Thi B","email":"b@gmail.com","phone":"0900000002","role":"admin","created_at":"2026-03-13 13:23:15","updated_at":null}}]'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/sightings
+    metadata:
+      custom: []
+      groupName: 'Manh mối (Sightings)'
+      groupDescription: |-
+
+        API quản lý các thông tin manh mối nhìn thấy người mất tích từ cộng đồng.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Gửi manh mối mới
+        * Lưu thông tin manh mối nhìn thấy người mất tích.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      missing_person_id:
+        custom: []
+        name: missing_person_id
+        description: 'ID hồ sơ người mất tích.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      reported_by:
+        custom: []
+        name: reported_by
+        description: 'ID người báo manh mối.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      location:
+        custom: []
+        name: location
+        description: 'Địa điểm nhìn thấy.'
+        required: true
+        example: 'Công viên Tao Đàn, Quận 1'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: 'Mô tả chi tiết (trang phục, hướng đi...).'
+        required: true
+        example: 'Mặc áo thun xanh.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      sighting_date:
+        custom: []
+        name: sighting_date
+        description: 'Ngày giờ nhìn thấy (YYYY-MM-DD).'
+        required: true
+        example: '2024-03-15'
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      missing_person_id: 1
+      reported_by: 2
+      location: 'Công viên Tao Đàn, Quận 1'
+      description: 'Mặc áo thun xanh.'
+      sighting_date: '2024-03-15'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/sightings/{id}'
+    metadata:
+      custom: []
+      groupName: 'Manh mối (Sightings)'
+      groupDescription: |-
+
+        API quản lý các thông tin manh mối nhìn thấy người mất tích từ cộng đồng.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Cập nhật manh mối'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của manh mối.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      location:
+        custom: []
+        name: location
+        description: 'Địa điểm mới.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: 'Mô tả mới.'
+        required: false
+        example: 'Eius et animi quos velit et.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      sighting_date:
+        custom: []
+        name: sighting_date
+        description: 'Ngày mới.'
+        required: false
+        example: architecto
+        type: date
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      location: architecto
+      description: 'Eius et animi quos velit et.'
+      sighting_date: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/sightings/{id}'
+    metadata:
+      custom: []
+      groupName: 'Manh mối (Sightings)'
+      groupDescription: |-
+
+        API quản lý các thông tin manh mối nhìn thấy người mất tích từ cộng đồng.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Xóa manh mối'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của manh mối.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

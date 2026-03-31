@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import userApi from "../../api/userApi";
 import toast from "react-hot-toast";
-import { Users, UserX, Loader2, Edit, Search, X } from "lucide-react";
+import { Users, UserX, Loader2, Edit, Search, X, Phone } from "lucide-react"; // Thêm icon Phone
 
 const UserManager = () => {
   const [users, setUsers] = useState([]);
@@ -45,12 +45,11 @@ const UserManager = () => {
     }
   };
 
-  // Hàm xử lý lưu User khi Edit tại chỗ
   const handleSaveUser = async (e) => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      // Giả định API của bạn là userApi.updateUser(id, data)
+      // Gửi toàn bộ object editingUser (bao gồm name, role, phone) lên Backend
       await userApi.updateUser(editingUser.id, editingUser);
       toast.success("Cập nhật thông tin người dùng thành công");
       setEditingUser(null);
@@ -62,11 +61,12 @@ const UserManager = () => {
     }
   };
 
-  // Logic lọc kết hợp
+  // Logic lọc kết hợp (Thêm tìm kiếm theo cả số điện thoại nếu muốn)
   const filteredUsers = users.filter((u) => {
     const matchText =
       u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchTerm.toLowerCase());
+      u.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (u.phone && u.phone.includes(searchTerm)); // Tìm theo số điện thoại
     const matchRole = roleFilter === "all" ? true : u.role === roleFilter;
     return matchText && matchRole;
   });
@@ -87,7 +87,6 @@ const UserManager = () => {
         </h2>
 
         <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
-          {/* Lọc Role */}
           <select
             className="border p-2 rounded-xl bg-white outline-none focus:ring-2 focus:ring-blue-200"
             value={roleFilter}
@@ -98,7 +97,6 @@ const UserManager = () => {
             <option value="admin">Admin</option>
           </select>
 
-          {/* Tìm kiếm */}
           <div className="relative w-full md:w-72">
             <Search
               className="absolute left-3 top-2.5 text-gray-400"
@@ -106,7 +104,7 @@ const UserManager = () => {
             />
             <input
               type="text"
-              placeholder="Tìm theo tên hoặc email..."
+              placeholder="Tìm tên, email hoặc số ĐT..."
               className="w-full pl-10 pr-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-blue-200"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -120,7 +118,7 @@ const UserManager = () => {
           <thead className="bg-gray-50 text-gray-500 uppercase text-xs font-semibold">
             <tr>
               <th className="p-4 border-b">Tên người dùng</th>
-              <th className="p-4 border-b">Địa chỉ Email</th>
+              <th className="p-4 border-b">Thông tin liên hệ</th>
               <th className="p-4 border-b text-center">Vai trò</th>
               <th className="p-4 border-b text-center">Thao tác</th>
             </tr>
@@ -130,10 +128,19 @@ const UserManager = () => {
               filteredUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-blue-50/30 transition">
                   <td className="p-4 font-medium text-gray-800">{user.name}</td>
-                  <td className="p-4 text-gray-600">{user.email}</td>
+                  <td className="p-4">
+                    <div className="text-sm text-gray-600">{user.email}</div>
+                    <div className="text-xs text-gray-400 italic">
+                      {user.phone || "Chưa cập nhật SĐT"}
+                    </div>
+                  </td>
                   <td className="p-4 text-center">
                     <span
-                      className={`px-3 py-1 rounded-full text-[10px] font-bold ${user.role === "admin" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"}`}
+                      className={`px-3 py-1 rounded-full text-[10px] font-bold ${
+                        user.role === "admin"
+                          ? "bg-purple-100 text-purple-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}
                     >
                       {user.role.toUpperCase()}
                     </span>
@@ -201,6 +208,23 @@ const UserManager = () => {
                   }
                 />
               </div>
+
+              {/* TRƯỜNG PHONE MỚI THÊM */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Số điện thoại
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-200 outline-none"
+                  placeholder="Nhập số điện thoại..."
+                  value={editingUser.phone || ""}
+                  onChange={(e) =>
+                    setEditingUser({ ...editingUser, phone: e.target.value })
+                  }
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email (Chỉ đọc)

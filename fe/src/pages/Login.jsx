@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.setItem("access_token", response.access_token);
       localStorage.setItem("user_role", response.user.role);
       localStorage.setItem("user_id", response.user.id);
-
+      localStorage.setItem("user_name", response.user.name);
       toast.success("Đăng nhập thành công!");
       // Nếu là admin thì đẩy vào dashboard, ngược lại về trang chủ
       response.user.role === "admin" ? navigate("/admin") : navigate("/");

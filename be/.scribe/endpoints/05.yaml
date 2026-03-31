@@ -1,0 +1,179 @@
+name: 'Báo cáo vi phạm'
+description: |-
+
+  API dành cho việc gửi và quản lý các báo cáo vi phạm liên quan đến hồ sơ.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/reports
+    metadata:
+      custom: []
+      groupName: 'Báo cáo vi phạm'
+      groupDescription: |-
+
+        API dành cho việc gửi và quản lý các báo cáo vi phạm liên quan đến hồ sơ.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Gửi báo cáo
+        * Người dùng gửi nội dung báo cáo vi phạm cho một hồ sơ cụ thể.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        custom: []
+        name: user_id
+        description: 'ID người gửi báo cáo.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      missing_person_id:
+        custom: []
+        name: missing_person_id
+        description: 'ID hồ sơ bị báo cáo.'
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      report_message:
+        custom: []
+        name: report_message
+        description: 'Nội dung chi tiết báo cáo.'
+        required: true
+        example: 'Hồ sơ có chứa thông tin sai lệch.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      user_id: 1
+      missing_person_id: 5
+      report_message: 'Hồ sơ có chứa thông tin sai lệch.'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/reports
+    metadata:
+      custom: []
+      groupName: 'Báo cáo vi phạm'
+      groupDescription: |-
+
+        API dành cho việc gửi và quản lý các báo cáo vi phạm liên quan đến hồ sơ.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Danh sách báo cáo
+        * Lấy toàn bộ danh sách báo cáo vi phạm kèm thông tin người báo và hồ sơ bị báo cáo.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/reports/{id}'
+    metadata:
+      custom: []
+      groupName: 'Báo cáo vi phạm'
+      groupDescription: |-
+
+        API dành cho việc gửi và quản lý các báo cáo vi phạm liên quan đến hồ sơ.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Đóng báo cáo
+        * Xóa báo cáo sau khi đã được Admin xử lý.
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID của báo cáo.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

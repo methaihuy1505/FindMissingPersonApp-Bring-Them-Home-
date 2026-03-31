@@ -9,6 +9,7 @@ import {
   Loader2,
   Edit,
   X,
+  RotateCcw,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -40,10 +41,7 @@ const PostManager = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const init = async () => {
-      await fetchAllPosts(isMounted);
-    };
-    init();
+    fetchAllPosts(isMounted);
     return () => {
       isMounted = false;
     };
@@ -61,13 +59,17 @@ const PostManager = () => {
     }
   };
 
-  const handleUpdateStatus = async (id) => {
+  // Hàm đảo ngược trạng thái nhanh (Toggle)
+  const handleToggleStatus = async (post) => {
+    const newStatus = post.status === "missing" ? "found" : "missing";
     try {
-      await personApi.updateStatus(id);
-      toast.success("Đã cập nhật trạng thái tìm thấy");
+      await personApi.update(post.id, { status: newStatus });
+      toast.success(
+        `Đã chuyển sang: ${newStatus === "found" ? "Đã tìm thấy" : "Đang tìm kiếm"}`,
+      );
       fetchAllPosts(true);
     } catch {
-      toast.error("Cập nhật thất bại");
+      toast.error("Cập nhật trạng thái thất bại");
     }
   };
 
@@ -76,16 +78,20 @@ const PostManager = () => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      
       await personApi.update(editingPost.id, editingPost);
       toast.success("Cập nhật bài đăng thành công!");
-      setEditingPost(null); // Đóng modal
-      fetchAllPosts(true); // Tải lại dữ liệu mới
+      setEditingPost(null);
+      fetchAllPosts(true);
     } catch {
       toast.error("Lỗi khi cập nhật bài đăng");
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleChangeEdit = (e) => {
+    const { name, value } = e.target;
+    setEditingPost((prev) => ({ ...prev, [name]: value }));
   };
 
   // Logic lọc kết hợp Text và Status
@@ -113,7 +119,6 @@ const PostManager = () => {
         </h2>
 
         <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
-          {/* Lọc theo trạng thái */}
           <select
             className="border p-2 rounded-xl outline-none focus:ring-2 focus:ring-blue-200 shadow-sm bg-white"
             value={statusFilter}
@@ -124,7 +129,6 @@ const PostManager = () => {
             <option value="found">Đã tìm thấy</option>
           </select>
 
-          {/* Ô tìm kiếm */}
           <div className="relative w-full md:w-80">
             <Search
               className="absolute left-3 top-2.5 text-gray-400"
@@ -174,7 +178,11 @@ const PostManager = () => {
                       {post.full_name}
                     </div>
                     <div className="text-xs text-gray-400">
-                      Giới tính: {post.gender === "male" ? "Nam" : "Nữ"}
+                      {post.gender === "male"
+                        ? "Nam"
+                        : post.gender === "female"
+                          ? "Nữ"
+                          : "Khác"}
                     </div>
                   </td>
                   <td className="p-4 text-gray-600 text-sm">
@@ -182,13 +190,17 @@ const PostManager = () => {
                   </td>
                   <td className="p-4 text-center">
                     <span
-                      className={`px-3 py-1 rounded-full text-[10px] font-extrabold ${post.status === "missing" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}
+                      className={`px-3 py-1 rounded-full text-[10px] font-extrabold ${
+                        post.status === "missing"
+                          ? "bg-red-100 text-red-600"
+                          : "bg-green-100 text-green-600"
+                      }`}
                     >
                       {post.status.toUpperCase()}
                     </span>
                   </td>
                   <td className="p-4 text-center">
-                    <div className="flex justify-center items-center space-x-2">
+                    <div className="flex justify-center items-center space-x-1">
                       <Link
                         to={`/person/${post.id}`}
                         className="p-2 text-blue-500 hover:bg-blue-50 rounded-full"
@@ -197,7 +209,6 @@ const PostManager = () => {
                         <Eye size={18} />
                       </Link>
 
-                      {/* Nút Edit */}
                       <button
                         onClick={() => setEditingPost(post)}
                         className="p-2 text-orange-500 hover:bg-orange-50 rounded-full"
@@ -206,15 +217,26 @@ const PostManager = () => {
                         <Edit size={18} />
                       </button>
 
-                      {post.status === "missing" && (
-                        <button
-                          onClick={() => handleUpdateStatus(post.id)}
-                          className="p-2 text-green-500 hover:bg-green-50 rounded-full"
-                          title="Đánh dấu đã tìm thấy"
-                        >
+                      <button
+                        onClick={() => handleToggleStatus(post)}
+                        className={`p-2 rounded-full ${
+                          post.status === "missing"
+                            ? "text-green-500 hover:bg-green-50"
+                            : "text-gray-400 hover:bg-gray-100"
+                        }`}
+                        title={
+                          post.status === "missing"
+                            ? "Đánh dấu đã tìm thấy"
+                            : "Hoàn tác về Đang tìm kiếm"
+                        }
+                      >
+                        {post.status === "missing" ? (
                           <CheckCircle size={18} />
-                        </button>
-                      )}
+                        ) : (
+                          <RotateCcw size={18} />
+                        )}
+                      </button>
+
                       <button
                         onClick={() => handleDelete(post.id)}
                         className="p-2 text-red-400 hover:bg-red-50 rounded-full"
@@ -240,62 +262,141 @@ const PostManager = () => {
         </table>
       </div>
 
-      {/* --- MODAL EDIT POST TẠI CHỖ --- */}
+      {/* --- MODAL EDIT POST ĐÃ NÂNG CẤP --- */}
       {editingPost && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative my-8 animate-in fade-in zoom-in duration-200">
             <button
               onClick={() => setEditingPost(null)}
               className="absolute top-4 right-4 text-gray-400 hover:text-red-500"
             >
               <X size={24} />
             </button>
-            <h3 className="text-2xl font-bold mb-4 flex items-center">
-              <Edit className="mr-2 text-orange-500" /> Sửa bài đăng
+            <h3 className="text-2xl font-bold mb-6 flex items-center text-gray-800 border-b pb-2">
+              <Edit className="mr-2 text-orange-500" /> Chỉnh sửa hồ sơ
             </h3>
 
             <form onSubmit={handleSaveEdit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                    Họ tên
+                  </label>
+                  <input
+                    name="full_name"
+                    type="text"
+                    className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200"
+                    required
+                    value={editingPost.full_name || ""}
+                    onChange={handleChangeEdit}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                    Giới tính
+                  </label>
+                  <select
+                    name="gender"
+                    className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200"
+                    value={editingPost.gender || "male"}
+                    onChange={handleChangeEdit}
+                  >
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                    <option value="other">Khác</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                    Ngày sinh
+                  </label>
+                  <input
+                    name="birth_date"
+                    type="date"
+                    className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200"
+                    value={editingPost.birth_date || ""}
+                    onChange={handleChangeEdit}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                    Ngày thấy cuối cùng
+                  </label>
+                  <input
+                    name="last_seen_date"
+                    type="date"
+                    className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200"
+                    required
+                    value={editingPost.last_seen_date || ""}
+                    onChange={handleChangeEdit}
+                  />
+                </div>
+              </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Họ tên
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                  Địa điểm thấy cuối
                 </label>
                 <input
+                  name="last_seen_location"
                   type="text"
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-200 outline-none"
+                  className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200"
                   required
-                  value={editingPost.full_name}
-                  onChange={(e) =>
-                    setEditingPost({
-                      ...editingPost,
-                      full_name: e.target.value,
-                    })
-                  }
+                  value={editingPost.last_seen_location || ""}
+                  onChange={handleChangeEdit}
                 />
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nơi nhìn thấy cuối
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                  Trạng thái hồ sơ
                 </label>
-                <input
-                  type="text"
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-200 outline-none"
-                  required
-                  value={editingPost.last_seen_location}
-                  onChange={(e) =>
-                    setEditingPost({
-                      ...editingPost,
-                      last_seen_location: e.target.value,
-                    })
-                  }
-                />
+                <select
+                  name="status"
+                  className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200 font-bold"
+                  value={editingPost.status || "missing"}
+                  onChange={handleChangeEdit}
+                >
+                  <option value="missing" className="text-red-500">
+                    Đang tìm kiếm (Missing)
+                  </option>
+                  <option value="found" className="text-green-500">
+                    Đã tìm thấy (Found)
+                  </option>
+                </select>
               </div>
-              <button
-                type="submit"
-                disabled={isSaving}
-                className="w-full bg-orange-500 text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition mt-4"
-              >
-                {isSaving ? "Đang lưu..." : "Lưu thay đổi"}
-              </button>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                  Mô tả đặc điểm
+                </label>
+                <textarea
+                  name="description"
+                  className="w-full p-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-200 h-24"
+                  value={editingPost.description || ""}
+                  onChange={handleChangeEdit}
+                ></textarea>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setEditingPost(null)}
+                  className="flex-1 bg-gray-100 text-gray-600 font-bold py-2 rounded-lg hover:bg-gray-200 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSaving}
+                  className="flex-[2] bg-orange-500 text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition shadow-md disabled:bg-orange-300"
+                >
+                  {isSaving ? "Đang lưu..." : "Cập nhật hồ sơ"}
+                </button>
+              </div>
             </form>
           </div>
         </div>

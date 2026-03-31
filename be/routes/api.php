@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MissingPersonController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SightingController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 // --- PUBLIC ROUTES ---
@@ -20,6 +20,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/me', [AuthController::class, 'me']);
 
     // Quản lý hồ sơ cá nhân
+    Route::put('/user/{id}', [UserController::class, 'updateProfile']);
+    Route::put('/user/{id}/password', [UserController::class, 'updatePassword']);
+    Route::get('/my-missing-persons', [MissingPersonController::class, 'getMyPosts']);
     Route::post('/missing-persons', [MissingPersonController::class, 'store']);
     Route::put('/missing-persons/{id}', [MissingPersonController::class, 'update']);
     Route::put('/missing-persons/{id}/status', [MissingPersonController::class, 'updateStatus']);

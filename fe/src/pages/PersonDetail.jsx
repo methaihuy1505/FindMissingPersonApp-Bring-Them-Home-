@@ -10,6 +10,9 @@ import {
   Send,
   MapPin,
   Loader2,
+  Phone,
+  Clock,
+  Info,
 } from "lucide-react";
 
 const PersonDetail = () => {
@@ -17,7 +20,7 @@ const PersonDetail = () => {
   const [person, setPerson] = useState(null);
   const [sightings, setSightings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Chống double submit
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [sightingForm, setSightingForm] = useState({
     location: "",
@@ -25,7 +28,9 @@ const PersonDetail = () => {
     sighting_date: "",
   });
 
-  // Sử dụng useCallback để đóng gói logic tải dữ liệu, tránh tạo lại hàm liên tục
+  // Lấy ngày hiện tại định dạng YYYY-MM-DD để chặn chọn ngày tương lai
+  const today = new Date().toISOString().split("T")[0];
+
   const loadAllData = useCallback(
     async (isMounted) => {
       try {
@@ -35,7 +40,6 @@ const PersonDetail = () => {
         ]);
 
         if (isMounted) {
-          // Gộp các setState vào một lượt cập nhật duy nhất
           setPerson(pData);
           setSightings(sData || []);
           setLoading(false);
@@ -52,13 +56,10 @@ const PersonDetail = () => {
 
   useEffect(() => {
     let isMounted = true;
-
-    // Tách biệt việc gọi dữ liệu khỏi luồng render chính của useEffect
     const init = async () => {
       await loadAllData(isMounted);
     };
     init();
-
     return () => {
       isMounted = false;
     };
@@ -66,14 +67,11 @@ const PersonDetail = () => {
 
   const handleSightingSubmit = async (e) => {
     e.preventDefault();
-
-    // Kiểm tra token và trạng thái đang gửi
     if (!localStorage.getItem("access_token"))
       return toast.error("Vui lòng đăng nhập");
     if (isSubmitting) return;
 
-    setIsSubmitting(true); // Khóa nút bấm ngay lập tức
-
+    setIsSubmitting(true);
     try {
       await sightingApi.create({
         ...sightingForm,
@@ -83,13 +81,11 @@ const PersonDetail = () => {
 
       toast.success("Cảm ơn bạn đã cung cấp manh mối!");
       setSightingForm({ location: "", description: "", sighting_date: "" });
-
-      // Tải lại dữ liệu sau khi gửi thành công mà không dùng setTimeout
       await loadAllData(true);
     } catch {
       toast.error("Gửi thất bại");
     } finally {
-      setIsSubmitting(false); // Mở khóa nút bấm
+      setIsSubmitting(false);
     }
   };
 
@@ -117,7 +113,8 @@ const PersonDetail = () => {
     );
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6">
+      {/* Nút báo cáo */}
       <button
         onClick={handleReport}
         className="flex items-center text-red-500 text-sm hover:underline ml-auto mb-4"
@@ -125,47 +122,87 @@ const PersonDetail = () => {
         <AlertCircle size={16} className="mr-1" /> Báo cáo vi phạm
       </button>
 
+      {/* Thông tin chi tiết hồ sơ */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <img
-          src={
-            person?.images?.[0]?.image_url || "https://via.placeholder.com/400"
-          }
-          className="rounded-xl w-full h-[400px] object-cover shadow-md"
-          alt={person?.full_name}
-        />
-        <div className="flex flex-col justify-center">
-          <h1 className="text-4xl font-extrabold mb-2 text-gray-900">
-            {person?.full_name}
-          </h1>
+        <div className="relative">
+          <img
+            src={
+              person?.images?.[0]?.image_url ||
+              "https://via.placeholder.com/400"
+            }
+            className="rounded-xl w-full h-[450px] object-cover shadow-md"
+            alt={person?.full_name}
+          />
           <div
-            className={`inline-block w-fit px-3 py-1 rounded-full text-xs font-bold mb-6 ${
+            className={`absolute top-4 left-4 px-4 py-1.5 rounded-full text-xs font-bold shadow-md ${
               person?.status === "missing"
-                ? "bg-red-100 text-red-600"
-                : "bg-green-100 text-green-600"
+                ? "bg-red-600 text-white"
+                : "bg-green-600 text-white"
             }`}
           >
             {person?.status === "missing" ? "ĐANG TÌM KIẾM" : "ĐÃ TÌM THẤY"}
           </div>
+        </div>
+
+        <div className="flex flex-col justify-center">
+          <h1 className="text-4xl font-extrabold mb-2 text-gray-900 uppercase">
+            {person?.full_name}
+          </h1>
+
+          <div className="flex items-center text-blue-600 mb-6 font-medium text-sm">
+            <Info size={16} className="mr-1" /> Người đăng:{" "}
+            {person?.creator?.name || "Thành viên"}
+          </div>
 
           <div className="space-y-4 text-gray-700 text-lg">
-            <p>
-              <strong>Giới tính:</strong>{" "}
-              {person?.gender === "male" ? "Nam" : "Nữ"}
-            </p>
-            <p className="flex items-start">
-              <MapPin size={20} className="mr-2 text-blue-500 mt-1" />
+            <div className="flex items-center bg-gray-50 p-3 rounded-xl">
+              <User size={20} className="mr-3 text-blue-500" />
+              <span>
+                <strong>Giới tính:</strong>{" "}
+                {person?.gender === "male"
+                  ? "Nam"
+                  : person?.gender === "female"
+                    ? "Nữ"
+                    : "Khác"}
+                <span className="mx-2 text-gray-300">|</span>
+                <strong>Ngày sinh:</strong> {person?.birth_date || "Không rõ"}
+              </span>
+            </div>
+
+            <div className="flex items-center bg-red-50 p-3 rounded-xl border-l-4 border-red-400">
+              <Clock size={20} className="mr-3 text-red-500" />
+              <span>
+                <strong>Mất tích từ ngày:</strong> {person?.last_seen_date}
+              </span>
+            </div>
+
+            <div className="flex items-center bg-gray-50 p-3 rounded-xl">
+              <MapPin size={20} className="mr-3 text-blue-500" />
               <span>
                 <strong>Vị trí cuối:</strong> {person?.last_seen_location}
               </span>
-            </p>
-            <div className="mt-6 p-4 bg-gray-50 rounded-xl border-l-4 border-gray-200 italic text-gray-600">
-              "{person?.description || "Không có mô tả."}"
             </div>
+
+            <div className="mt-6 p-4 bg-yellow-50/50 rounded-xl border border-yellow-100 italic text-gray-700 leading-relaxed">
+              <p className="text-xs font-bold text-yellow-600 uppercase mb-1">
+                Mô tả đặc điểm:
+              </p>
+              "{person?.description || "Không có mô tả chi tiết."}"
+            </div>
+
+            {person?.creator?.phone && (
+              <div className="flex items-center text-green-600 font-bold text-sm mt-2">
+                <Phone size={16} className="mr-2" /> Liên hệ khẩn cấp:{" "}
+                {person.creator.phone}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Phần Manh mối & Gửi manh mối */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        {/* Danh sách manh mối */}
         <div>
           <h2 className="text-2xl font-bold mb-6 text-gray-800">
             Manh mối cộng đồng
@@ -194,6 +231,7 @@ const PersonDetail = () => {
           </div>
         </div>
 
+        {/* Form gửi manh mối */}
         <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 h-fit">
           <h2 className="text-xl font-bold mb-4 flex items-center text-gray-800">
             <Send size={20} className="mr-2 text-blue-600" /> Gửi manh mối mới
@@ -201,7 +239,7 @@ const PersonDetail = () => {
           <form onSubmit={handleSightingSubmit} className="space-y-4">
             <input
               type="text"
-              placeholder="Địa điểm thấy?"
+              placeholder="Địa điểm bạn nhìn thấy họ?"
               className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
               required
               value={sightingForm.location}
@@ -209,20 +247,26 @@ const PersonDetail = () => {
                 setSightingForm({ ...sightingForm, location: e.target.value })
               }
             />
-            <input
-              type="date"
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
-              required
-              value={sightingForm.sighting_date}
-              onChange={(e) =>
-                setSightingForm({
-                  ...sightingForm,
-                  sighting_date: e.target.value,
-                })
-              }
-            />
+            <div>
+              <label className="text-xs text-gray-400 ml-1 mb-1 block uppercase font-bold">
+                Ngày nhìn thấy
+              </label>
+              <input
+                type="date"
+                className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                required
+                max={today} // KHÔNG CHO CHỌN NGÀY TƯƠNG LAI
+                value={sightingForm.sighting_date}
+                onChange={(e) =>
+                  setSightingForm({
+                    ...sightingForm,
+                    sighting_date: e.target.value,
+                  })
+                }
+              />
+            </div>
             <textarea
-              placeholder="Mô tả đặc điểm..."
+              placeholder="Mô tả đặc điểm trang phục, hướng di chuyển..."
               className="w-full p-3 border rounded-xl h-28 outline-none focus:ring-2 focus:ring-blue-500"
               required
               value={sightingForm.description}
@@ -239,7 +283,7 @@ const PersonDetail = () => {
               className={`w-full py-3 rounded-xl font-bold transition shadow-lg ${
                 isSubmitting
                   ? "bg-gray-400 cursor-not-allowed text-white"
-                  : "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-100"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
               }`}
             >
               {isSubmitting ? "Đang xử lý..." : "Xác nhận báo manh mối"}

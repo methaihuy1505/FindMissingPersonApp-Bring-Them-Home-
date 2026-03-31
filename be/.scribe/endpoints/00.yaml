@@ -1,0 +1,189 @@
+name: 'Xác thực tài khoản'
+description: |-
+
+  API dành cho việc quản lý tài khoản người dùng, đăng ký và đăng nhập.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      custom: []
+      groupName: 'Xác thực tài khoản'
+      groupDescription: |-
+
+        API dành cho việc quản lý tài khoản người dùng, đăng ký và đăng nhập.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Đăng nhập'
+      description: '* Xác thực người dùng và trả về JWT token.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'Email đã đăng ký.'
+        required: true
+        example: user@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'Mật khẩu tài khoản.'
+        required: true
+        example: password123
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: user@example.com
+      password: password123
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/register
+    metadata:
+      custom: []
+      groupName: 'Xác thực tài khoản'
+      groupDescription: |-
+
+        API dành cho việc quản lý tài khoản người dùng, đăng ký và đăng nhập.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Đăng ký tài khoản'
+      description: "* Tạo tài khoản mới cho người dùng. Mặc định vai trò sẽ là 'user'."
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: 'Tên người dùng.'
+        required: true
+        example: 'Nguyễn Văn A'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      email:
+        custom: []
+        name: email
+        description: 'Email dùng để đăng nhập (duy nhất).'
+        required: true
+        example: user@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'Mật khẩu.'
+        required: true
+        example: password123
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      phone:
+        custom: []
+        name: phone
+        description: 'Số điện thoại liên hệ.'
+        required: false
+        example: '0901234567'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Nguyễn Văn A'
+      email: user@example.com
+      password: password123
+      phone: '0901234567'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/me
+    metadata:
+      custom: []
+      groupName: 'Xác thực tài khoản'
+      groupDescription: |-
+
+        API dành cho việc quản lý tài khoản người dùng, đăng ký và đăng nhập.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Thông tin cá nhân (Me)'
+      description: '* Lấy thông tin chi tiết của người dùng đang đăng nhập từ Token.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {your-jwt-token}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

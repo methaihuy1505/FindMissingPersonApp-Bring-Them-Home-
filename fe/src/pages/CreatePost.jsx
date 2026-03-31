@@ -8,11 +8,23 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({
     full_name: "",
     gender: "male",
+    birth_date: "",
+    last_seen_date: "",
     last_seen_location: "",
     description: "",
+    status: "missing",
     image_url: "",
     created_by: localStorage.getItem("user_id"),
   });
+
+  // Hàm dùng chung cho tất cả các input để cập nhật state
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +32,8 @@ const CreatePost = () => {
       await personApi.create(formData);
       toast.success("Đăng tin thành công!");
       navigate("/");
-    } catch {
-      // Không cần khai báo biến error nếu không dùng đến
+    } catch (error) {
+      console.error("Lỗi khi đăng tin:", error);
       toast.error("Có lỗi xảy ra, vui lòng kiểm tra lại");
     }
   };
@@ -32,27 +44,30 @@ const CreatePost = () => {
         Đăng tin tìm người mất tích
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Họ tên */}
         <div>
           <label className="block mb-1 font-medium">
             Họ và tên người mất tích
           </label>
           <input
+            name="full_name"
             type="text"
             className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
             required
-            onChange={(e) =>
-              setFormData({ ...formData, full_name: e.target.value })
-            }
+            value={formData.full_name}
+            onChange={handleChange}
           />
         </div>
+
+        {/* Giới tính và Ngày sinh */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block mb-1 font-medium">Giới tính</label>
             <select
-              className="w-full p-2 border rounded"
-              onChange={(e) =>
-                setFormData({ ...formData, gender: e.target.value })
-              }
+              name="gender"
+              className="w-full p-2 border rounded outline-none"
+              value={formData.gender}
+              onChange={handleChange}
             >
               <option value="male">Nam</option>
               <option value="female">Nữ</option>
@@ -60,44 +75,78 @@ const CreatePost = () => {
             </select>
           </div>
           <div>
-            <label className="block mb-1 font-medium">Link ảnh đại diện</label>
+            <label className="block mb-1 font-medium">
+              Ngày sinh (nếu biết)
+            </label>
             <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="http://..."
-              onChange={(e) =>
-                setFormData({ ...formData, image_url: e.target.value })
-              }
+              name="birth_date"
+              type="date"
+              className="w-full p-2 border rounded outline-none"
+              value={formData.birth_date}
+              onChange={handleChange}
             />
           </div>
         </div>
+
+        {/* Ngày thấy lần cuối và Link ảnh */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block mb-1 font-medium">Ngày thấy lần cuối</label>
+            <input
+              name="last_seen_date"
+              type="date"
+              className="w-full p-2 border rounded outline-none"
+              value={formData.last_seen_date}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-medium">Link ảnh đại diện</label>
+            <input
+              name="image_url"
+              type="text"
+              className="w-full p-2 border rounded outline-none"
+              placeholder="http://..."
+              value={formData.image_url}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        {/* Địa điểm */}
         <div>
           <label className="block mb-1 font-medium">
             Địa điểm nhìn thấy cuối cùng
           </label>
           <input
+            name="last_seen_location"
             type="text"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
             required
-            onChange={(e) =>
-              setFormData({ ...formData, last_seen_location: e.target.value })
-            }
+            placeholder="Ví dụ: Công viên Tao Đàn, Quận 1..."
+            value={formData.last_seen_location}
+            onChange={handleChange}
           />
         </div>
+
+        {/* Mô tả */}
         <div>
           <label className="block mb-1 font-medium">
             Mô tả đặc điểm nhận dạng
           </label>
           <textarea
-            className="w-full p-2 border rounded h-32"
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
+            name="description"
+            className="w-full p-2 border rounded h-32 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Ví dụ: Cao 1m6, khi đi mặc áo thun trắng, có vết sẹo ở tay trái..."
+            value={formData.description}
+            onChange={handleChange}
           ></textarea>
         </div>
+
+        {/* Nút đăng bài */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 rounded font-bold hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white py-3 rounded font-bold hover:bg-blue-700 transition shadow-lg"
         >
           Xác nhận đăng tin
         </button>
