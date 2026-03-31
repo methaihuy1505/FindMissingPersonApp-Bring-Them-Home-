@@ -10,7 +10,9 @@ WORKDIR /var/www
 COPY . .
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-RUN php artisan scribe:generate --no-responses
+RUN cp .env.example .env && \
+    php artisan key:generate && \
+    php artisan scribe:generate --no-responses
 RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
