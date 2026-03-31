@@ -1,0 +1,1276 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: 'Báo cáo vi phạm'
+    description: "\nAPI dành cho việc gửi và quản lý các báo cáo vi phạm liên quan đến hồ sơ."
+  -
+    name: 'Manh mối (Sightings)'
+    description: "\nAPI quản lý các thông tin manh mối nhìn thấy người mất tích từ cộng đồng."
+  -
+    name: 'Quản lý hồ sơ người mất tích'
+    description: '* Các API liên quan đến việc tạo, hiển thị và cập nhật hồ sơ người mất tích.'
+  -
+    name: 'Quản lý người dùng'
+    description: "\nAPI dành cho quản trị viên quản lý danh sách người dùng và cá nhân người dùng quản lý hồ sơ."
+  -
+    name: 'Quản lý ảnh'
+    description: "\nAPI xử lý các hình ảnh liên quan đến hồ sơ người mất tích."
+  -
+    name: 'Xác thực tài khoản'
+    description: "\nAPI dành cho việc quản lý tài khoản người dùng, đăng ký và đăng nhập."
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'Lấy token từ API <b>/login</b>, sau đó dán vào ô Authorize phía trên theo định dạng: Bearer {token}'
+security:
+  -
+    default: []
+paths:
+  /api/reports:
+    post:
+      summary: "Gửi báo cáo\n* Người dùng gửi nội dung báo cáo vi phạm cho một hồ sơ cụ thể."
+      operationId: giBoCoNgiDngGiNiDungBoCoViPhmChoMtHSCTh
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Báo cáo vi phạm'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'ID người gửi báo cáo.'
+                  example: 1
+                missing_person_id:
+                  type: integer
+                  description: 'ID hồ sơ bị báo cáo.'
+                  example: 5
+                report_message:
+                  type: string
+                  description: 'Nội dung chi tiết báo cáo.'
+                  example: 'Hồ sơ có chứa thông tin sai lệch.'
+              required:
+                - user_id
+                - missing_person_id
+                - report_message
+    get:
+      summary: "Danh sách báo cáo\n* Lấy toàn bộ danh sách báo cáo vi phạm kèm thông tin người báo và hồ sơ bị báo cáo."
+      operationId: danhSchBoCoLyTonBDanhSchBoCoViPhmKmThngTinNgiBoVHSBBoCo
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Báo cáo vi phạm'
+  '/api/reports/{id}':
+    delete:
+      summary: "Đóng báo cáo\n* Xóa báo cáo sau khi đã được Admin xử lý."
+      operationId: ngBoCoXaBoCoSauKhicAdminXL
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Báo cáo vi phạm'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID của báo cáo.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/sightings/{person_id}':
+    get:
+      summary: "Lấy manh mối theo người mất tích\n* Lấy danh sách tất cả manh mối của một hồ sơ cụ thể."
+      operationId: lyManhMiTheoNgiMtTchLyDanhSchTtCManhMiCaMtHSCTh
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 9
+                    missing_person_id:
+                      type: integer
+                      example: 1
+                    reported_by:
+                      type: integer
+                      example: 10
+                    location:
+                      type: string
+                      example: test
+                    description:
+                      type: string
+                      example: test
+                    sighting_date:
+                      type: string
+                      example: '2026-04-01'
+                    created_at:
+                      type: string
+                      example: '2026-03-31 10:23:05'
+                    updated_at:
+                      type: string
+                      example: '2026-03-31 10:23:05'
+                    reporter:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 10
+                        name:
+                          type: string
+                          example: a
+                        email:
+                          type: string
+                          example: admin@test.com
+                        phone:
+                          type: string
+                          example: '123'
+                        role:
+                          type: string
+                          example: admin
+                        created_at:
+                          type: string
+                          example: '2026-03-31 08:53:17'
+                        updated_at:
+                          type: string
+                          example: null
+                          nullable: true
+                example:
+                  -
+                    id: 9
+                    missing_person_id: 1
+                    reported_by: 10
+                    location: test
+                    description: test
+                    sighting_date: '2026-04-01'
+                    created_at: '2026-03-31 10:23:05'
+                    updated_at: '2026-03-31 10:23:05'
+                    reporter:
+                      id: 10
+                      name: a
+                      email: admin@test.com
+                      phone: '123'
+                      role: admin
+                      created_at: '2026-03-31 08:53:17'
+                      updated_at: null
+                  -
+                    id: 2
+                    missing_person_id: 1
+                    reported_by: null
+                    location: 'District 3'
+                    description: 'I saw someone looking like him near the park'
+                    sighting_date: '2026-03-31'
+                    created_at: '2026-03-31 09:27:29'
+                    updated_at: '2026-03-31 09:27:29'
+                    reporter: null
+                  -
+                    id: 7
+                    missing_person_id: 1
+                    reported_by: 10
+                    location: 'quận 8'
+                    description: 'gần cầu chà và'
+                    sighting_date: '2026-03-29'
+                    created_at: '2026-03-31 10:20:19'
+                    updated_at: '2026-03-31 10:20:19'
+                    reporter:
+                      id: 10
+                      name: a
+                      email: admin@test.com
+                      phone: '123'
+                      role: admin
+                      created_at: '2026-03-31 08:53:17'
+                      updated_at: null
+                  -
+                    id: 17
+                    missing_person_id: 1
+                    reported_by: 10
+                    location: Iran
+                    description: 'Đang vác tên lửa chạy vào nhà'
+                    sighting_date: '2026-03-01'
+                    created_at: '2026-03-31 12:44:39'
+                    updated_at: '2026-03-31 12:44:39'
+                    reporter:
+                      id: 10
+                      name: a
+                      email: admin@test.com
+                      phone: '123'
+                      role: admin
+                      created_at: '2026-03-31 08:53:17'
+                      updated_at: null
+                  -
+                    id: 1
+                    missing_person_id: 1
+                    reported_by: 2
+                    location: 'District 1'
+                    description: 'Looks similar to missing person'
+                    sighting_date: '2025-10-12'
+                    created_at: '2026-03-13 13:23:15'
+                    updated_at: '2026-03-31 07:44:43'
+                    reporter:
+                      id: 2
+                      name: 'Tran Thi B'
+                      email: b@gmail.com
+                      phone: '0900000002'
+                      role: admin
+                      created_at: '2026-03-13 13:23:15'
+                      updated_at: null
+      tags:
+        - 'Manh mối (Sightings)'
+      security: []
+    parameters:
+      -
+        in: path
+        name: person_id
+        description: 'ID của hồ sơ người mất tích.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/sightings:
+    post:
+      summary: "Gửi manh mối mới\n* Lưu thông tin manh mối nhìn thấy người mất tích."
+      operationId: giManhMiMiLuThngTinManhMiNhnThyNgiMtTch
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Manh mối (Sightings)'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                missing_person_id:
+                  type: integer
+                  description: 'ID hồ sơ người mất tích.'
+                  example: 1
+                reported_by:
+                  type: integer
+                  description: 'ID người báo manh mối.'
+                  example: 2
+                location:
+                  type: string
+                  description: 'Địa điểm nhìn thấy.'
+                  example: 'Công viên Tao Đàn, Quận 1'
+                description:
+                  type: string
+                  description: 'Mô tả chi tiết (trang phục, hướng đi...).'
+                  example: 'Mặc áo thun xanh.'
+                sighting_date:
+                  type: date
+                  description: 'Ngày giờ nhìn thấy (YYYY-MM-DD).'
+                  example: '2024-03-15'
+              required:
+                - missing_person_id
+                - reported_by
+                - location
+                - description
+                - sighting_date
+  '/api/sightings/{id}':
+    put:
+      summary: 'Cập nhật manh mối'
+      operationId: cpNhtManhMi
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Manh mối (Sightings)'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  type: string
+                  description: 'Địa điểm mới.'
+                  example: architecto
+                description:
+                  type: string
+                  description: 'Mô tả mới.'
+                  example: 'Eius et animi quos velit et.'
+                sighting_date:
+                  type: date
+                  description: 'Ngày mới.'
+                  example: architecto
+    delete:
+      summary: 'Xóa manh mối'
+      operationId: xaManhMi
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Manh mối (Sightings)'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID của manh mối.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/missing-persons:
+    get:
+      summary: "Danh sách hồ sơ\n* Lấy toàn bộ danh sách người mất tích, mặc định sắp xếp theo tin mới nhất."
+      operationId: danhSchHSLyTonBDanhSchNgiMtTchMcnhSpXpTheoTinMiNht
+      description: ''
+      parameters:
+        -
+          in: query
+          name: status
+          description: "Lọc theo trạng thái ('missing', 'found' hoặc 'all')."
+          example: missing
+          required: false
+          schema:
+            type: string
+            description: "Lọc theo trạng thái ('missing', 'found' hoặc 'all')."
+            example: missing
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 10
+                    full_name:
+                      type: string
+                      example: 'cô bé bán diêm'
+                    gender:
+                      type: string
+                      example: female
+                    birth_date:
+                      type: string
+                      example: null
+                      nullable: true
+                    last_seen_date:
+                      type: string
+                      example: '2026-03-30'
+                    last_seen_location:
+                      type: string
+                      example: 'công viên quận 1'
+                    description:
+                      type: string
+                      example: 'cao 1m5'
+                    status:
+                      type: string
+                      example: missing
+                    created_by:
+                      type: integer
+                      example: 11
+                    created_at:
+                      type: string
+                      example: '2026-03-31 16:16:59'
+                    updated_at:
+                      type: string
+                      example: '2026-03-31 16:16:59'
+                    images:
+                      type: array
+                      example:
+                        -
+                          id: 8
+                          missing_person_id: 10
+                          image_url: 'https://cdn.baohatinh.vn/images/4fcbd37d77834e81989cc9830f65b41a8914df4a745ff7c7f6b5d0d9fc878fbf93a484348654a2504a80cf66f8cca6ec/127d1100219t99411l0.jpg'
+                          uploaded_at: '2026-03-31 16:16:59'
+                          updated_at: '2026-03-31 16:16:59'
+                          created_at: '2026-03-31 16:16:59'
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 8
+                          missing_person_id:
+                            type: integer
+                            example: 10
+                          image_url:
+                            type: string
+                            example: 'https://cdn.baohatinh.vn/images/4fcbd37d77834e81989cc9830f65b41a8914df4a745ff7c7f6b5d0d9fc878fbf93a484348654a2504a80cf66f8cca6ec/127d1100219t99411l0.jpg'
+                          uploaded_at:
+                            type: string
+                            example: '2026-03-31 16:16:59'
+                          updated_at:
+                            type: string
+                            example: '2026-03-31 16:16:59'
+                          created_at:
+                            type: string
+                            example: '2026-03-31 16:16:59'
+                example:
+                  -
+                    id: 10
+                    full_name: 'cô bé bán diêm'
+                    gender: female
+                    birth_date: null
+                    last_seen_date: '2026-03-30'
+                    last_seen_location: 'công viên quận 1'
+                    description: 'cao 1m5'
+                    status: missing
+                    created_by: 11
+                    created_at: '2026-03-31 16:16:59'
+                    updated_at: '2026-03-31 16:16:59'
+                    images:
+                      -
+                        id: 8
+                        missing_person_id: 10
+                        image_url: 'https://cdn.baohatinh.vn/images/4fcbd37d77834e81989cc9830f65b41a8914df4a745ff7c7f6b5d0d9fc878fbf93a484348654a2504a80cf66f8cca6ec/127d1100219t99411l0.jpg'
+                        uploaded_at: '2026-03-31 16:16:59'
+                        updated_at: '2026-03-31 16:16:59'
+                        created_at: '2026-03-31 16:16:59'
+                  -
+                    id: 8
+                    full_name: 'Ha Van C'
+                    gender: other
+                    birth_date: null
+                    last_seen_date: '2026-01-28'
+                    last_seen_location: Amazon
+                    description: null
+                    status: missing
+                    created_by: 10
+                    created_at: '2026-03-31 12:49:08'
+                    updated_at: '2026-03-31 16:40:12'
+                    images:
+                      -
+                        id: 6
+                        missing_person_id: 8
+                        image_url: 'https://cdn2.tuoitre.vn/2019/5/8/avatar-publicitystill-h2019-1557284559744252594756.jpg'
+                        uploaded_at: '2026-03-31 12:49:09'
+                        updated_at: '2026-03-31 12:49:09'
+                        created_at: '2026-03-31 12:49:09'
+                  -
+                    id: 1
+                    full_name: 'Nguyen Van D'
+                    gender: male
+                    birth_date: '2004-05-15'
+                    last_seen_date: '2025-10-10'
+                    last_seen_location: 'Ho Chi Minh City'
+                    description: 'Last seen wearing blue shirt'
+                    status: missing
+                    created_by: null
+                    created_at: '2026-03-13 13:23:15'
+                    updated_at: '2026-03-31 17:14:08'
+                    images:
+                      -
+                        id: 4
+                        missing_person_id: 1
+                        image_url: 'https://cafefcdn.com/203337114487263232/2024/12/11/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png'
+                        uploaded_at: '2026-03-31 12:19:06'
+                        updated_at: '2026-03-31 12:19:06'
+                        created_at: '2026-03-31 12:19:06'
+                  -
+                    id: 2
+                    full_name: 'Tran Thi E'
+                    gender: female
+                    birth_date: null
+                    last_seen_date: '2025-09-15'
+                    last_seen_location: 'Ha Noi'
+                    description: 'Missing near bus station'
+                    status: missing
+                    created_by: 2
+                    created_at: '2026-03-13 13:23:15'
+                    updated_at: '2026-03-31 07:45:18'
+                    images:
+                      -
+                        id: 3
+                        missing_person_id: 2
+                        image_url: 'https://cafefcdn.com/203337114487263232/2024/11/25/4675052799582946396645801877579821328676080n-1732499995523-1732499995682540076027.jpg'
+                        uploaded_at: '2026-03-31 12:18:15'
+                        updated_at: '2026-03-31 12:18:15'
+                        created_at: '2026-03-31 12:18:15'
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+      security: []
+    post:
+      summary: "Đăng hồ sơ mới\n* Lưu thông tin người mất tích và ảnh đính kèm (nếu có)."
+      operationId: ngHSMiLuThngTinNgiMtTchVnhnhKmnuC
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Họ và tên người cần tìm.'
+                  example: 'Nguyễn Văn A'
+                gender:
+                  type: string
+                  description: 'Giới tính (male, female, other).'
+                  example: male
+                birth_date:
+                  type: date
+                  description: 'Ngày sinh (YYYY-MM-DD).'
+                  example: '1995-05-20'
+                  nullable: true
+                last_seen_date:
+                  type: date
+                  description: 'Ngày nhìn thấy lần cuối.'
+                  example: '2024-01-15'
+                  nullable: true
+                last_seen_location:
+                  type: string
+                  description: 'Vị trí cuối cùng nhìn thấy.'
+                  example: 'Quận 1, TP.HCM'
+                description:
+                  type: string
+                  description: 'Đặc điểm nhận dạng hoặc thông tin mô tả.'
+                  example: 'Cao 1m7, nốt ruồi bên trái.'
+                  nullable: true
+                status:
+                  type: string
+                  description: 'Trạng thái (missing hoặc found).'
+                  example: missing
+                  nullable: true
+                created_by:
+                  type: integer
+                  description: 'ID người đăng bài.'
+                  example: 1
+                image_url:
+                  type: string
+                  description: 'Đường dẫn ảnh hồ sơ.'
+                  example: 'https://example.com/photo.jpg'
+                  nullable: true
+              required:
+                - full_name
+                - gender
+                - last_seen_location
+                - created_by
+  '/api/missing-persons/{id}':
+    get:
+      summary: "Chi tiết hồ sơ\n* Lấy thông tin chi tiết một hồ sơ kèm ảnh, người đăng và các manh mối liên quan."
+      operationId: chiTitHSLyThngTinChiTitMtHSKmnhNgingVCcManhMiLinQuan
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  full_name: 'Nguyen Van D'
+                  gender: male
+                  birth_date: '2004-05-15'
+                  last_seen_date: '2025-10-10'
+                  last_seen_location: 'Ho Chi Minh City'
+                  description: 'Last seen wearing blue shirt'
+                  status: missing
+                  created_by: null
+                  created_at: '2026-03-13 13:23:15'
+                  updated_at: '2026-03-31 17:14:08'
+                  creator: null
+                  images:
+                    -
+                      id: 4
+                      missing_person_id: 1
+                      image_url: 'https://cafefcdn.com/203337114487263232/2024/12/11/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png'
+                      uploaded_at: '2026-03-31 12:19:06'
+                      updated_at: '2026-03-31 12:19:06'
+                      created_at: '2026-03-31 12:19:06'
+                  sightings:
+                    -
+                      id: 1
+                      missing_person_id: 1
+                      reported_by: 2
+                      location: 'District 1'
+                      description: 'Looks similar to missing person'
+                      sighting_date: '2025-10-12'
+                      created_at: '2026-03-13 13:23:15'
+                      updated_at: '2026-03-31 07:44:43'
+                      reporter:
+                        id: 2
+                        name: 'Tran Thi B'
+                        email: b@gmail.com
+                        phone: '0900000002'
+                        role: admin
+                        created_at: '2026-03-13 13:23:15'
+                        updated_at: null
+                    -
+                      id: 2
+                      missing_person_id: 1
+                      reported_by: null
+                      location: 'District 3'
+                      description: 'I saw someone looking like him near the park'
+                      sighting_date: '2026-03-31'
+                      created_at: '2026-03-31 09:27:29'
+                      updated_at: '2026-03-31 09:27:29'
+                      reporter: null
+                    -
+                      id: 7
+                      missing_person_id: 1
+                      reported_by: 10
+                      location: 'quận 8'
+                      description: 'gần cầu chà và'
+                      sighting_date: '2026-03-29'
+                      created_at: '2026-03-31 10:20:19'
+                      updated_at: '2026-03-31 10:20:19'
+                      reporter:
+                        id: 10
+                        name: a
+                        email: admin@test.com
+                        phone: '123'
+                        role: admin
+                        created_at: '2026-03-31 08:53:17'
+                        updated_at: null
+                    -
+                      id: 9
+                      missing_person_id: 1
+                      reported_by: 10
+                      location: test
+                      description: test
+                      sighting_date: '2026-04-01'
+                      created_at: '2026-03-31 10:23:05'
+                      updated_at: '2026-03-31 10:23:05'
+                      reporter:
+                        id: 10
+                        name: a
+                        email: admin@test.com
+                        phone: '123'
+                        role: admin
+                        created_at: '2026-03-31 08:53:17'
+                        updated_at: null
+                    -
+                      id: 17
+                      missing_person_id: 1
+                      reported_by: 10
+                      location: Iran
+                      description: 'Đang vác tên lửa chạy vào nhà'
+                      sighting_date: '2026-03-01'
+                      created_at: '2026-03-31 12:44:39'
+                      updated_at: '2026-03-31 12:44:39'
+                      reporter:
+                        id: 10
+                        name: a
+                        email: admin@test.com
+                        phone: '123'
+                        role: admin
+                        created_at: '2026-03-31 08:53:17'
+                        updated_at: null
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  full_name:
+                    type: string
+                    example: 'Nguyen Van D'
+                  gender:
+                    type: string
+                    example: male
+                  birth_date:
+                    type: string
+                    example: '2004-05-15'
+                  last_seen_date:
+                    type: string
+                    example: '2025-10-10'
+                  last_seen_location:
+                    type: string
+                    example: 'Ho Chi Minh City'
+                  description:
+                    type: string
+                    example: 'Last seen wearing blue shirt'
+                  status:
+                    type: string
+                    example: missing
+                  created_by:
+                    type: string
+                    example: null
+                    nullable: true
+                  created_at:
+                    type: string
+                    example: '2026-03-13 13:23:15'
+                  updated_at:
+                    type: string
+                    example: '2026-03-31 17:14:08'
+                  creator:
+                    type: string
+                    example: null
+                    nullable: true
+                  images:
+                    type: array
+                    example:
+                      -
+                        id: 4
+                        missing_person_id: 1
+                        image_url: 'https://cafefcdn.com/203337114487263232/2024/12/11/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png'
+                        uploaded_at: '2026-03-31 12:19:06'
+                        updated_at: '2026-03-31 12:19:06'
+                        created_at: '2026-03-31 12:19:06'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 4
+                        missing_person_id:
+                          type: integer
+                          example: 1
+                        image_url:
+                          type: string
+                          example: 'https://cafefcdn.com/203337114487263232/2024/12/11/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png'
+                        uploaded_at:
+                          type: string
+                          example: '2026-03-31 12:19:06'
+                        updated_at:
+                          type: string
+                          example: '2026-03-31 12:19:06'
+                        created_at:
+                          type: string
+                          example: '2026-03-31 12:19:06'
+                  sightings:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        missing_person_id: 1
+                        reported_by: 2
+                        location: 'District 1'
+                        description: 'Looks similar to missing person'
+                        sighting_date: '2025-10-12'
+                        created_at: '2026-03-13 13:23:15'
+                        updated_at: '2026-03-31 07:44:43'
+                        reporter:
+                          id: 2
+                          name: 'Tran Thi B'
+                          email: b@gmail.com
+                          phone: '0900000002'
+                          role: admin
+                          created_at: '2026-03-13 13:23:15'
+                          updated_at: null
+                      -
+                        id: 2
+                        missing_person_id: 1
+                        reported_by: null
+                        location: 'District 3'
+                        description: 'I saw someone looking like him near the park'
+                        sighting_date: '2026-03-31'
+                        created_at: '2026-03-31 09:27:29'
+                        updated_at: '2026-03-31 09:27:29'
+                        reporter: null
+                      -
+                        id: 7
+                        missing_person_id: 1
+                        reported_by: 10
+                        location: 'quận 8'
+                        description: 'gần cầu chà và'
+                        sighting_date: '2026-03-29'
+                        created_at: '2026-03-31 10:20:19'
+                        updated_at: '2026-03-31 10:20:19'
+                        reporter:
+                          id: 10
+                          name: a
+                          email: admin@test.com
+                          phone: '123'
+                          role: admin
+                          created_at: '2026-03-31 08:53:17'
+                          updated_at: null
+                      -
+                        id: 9
+                        missing_person_id: 1
+                        reported_by: 10
+                        location: test
+                        description: test
+                        sighting_date: '2026-04-01'
+                        created_at: '2026-03-31 10:23:05'
+                        updated_at: '2026-03-31 10:23:05'
+                        reporter:
+                          id: 10
+                          name: a
+                          email: admin@test.com
+                          phone: '123'
+                          role: admin
+                          created_at: '2026-03-31 08:53:17'
+                          updated_at: null
+                      -
+                        id: 17
+                        missing_person_id: 1
+                        reported_by: 10
+                        location: Iran
+                        description: 'Đang vác tên lửa chạy vào nhà'
+                        sighting_date: '2026-03-01'
+                        created_at: '2026-03-31 12:44:39'
+                        updated_at: '2026-03-31 12:44:39'
+                        reporter:
+                          id: 10
+                          name: a
+                          email: admin@test.com
+                          phone: '123'
+                          role: admin
+                          created_at: '2026-03-31 08:53:17'
+                          updated_at: null
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        missing_person_id:
+                          type: integer
+                          example: 1
+                        reported_by:
+                          type: integer
+                          example: 2
+                        location:
+                          type: string
+                          example: 'District 1'
+                        description:
+                          type: string
+                          example: 'Looks similar to missing person'
+                        sighting_date:
+                          type: string
+                          example: '2025-10-12'
+                        created_at:
+                          type: string
+                          example: '2026-03-13 13:23:15'
+                        updated_at:
+                          type: string
+                          example: '2026-03-31 07:44:43'
+                        reporter:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 2
+                            name:
+                              type: string
+                              example: 'Tran Thi B'
+                            email:
+                              type: string
+                              example: b@gmail.com
+                            phone:
+                              type: string
+                              example: '0900000002'
+                            role:
+                              type: string
+                              example: admin
+                            created_at:
+                              type: string
+                              example: '2026-03-13 13:23:15'
+                            updated_at:
+                              type: string
+                              example: null
+                              nullable: true
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+      security: []
+    put:
+      summary: "Cập nhật hồ sơ\n* Chỉnh sửa thông tin chi tiết của hồ sơ người mất tích."
+      operationId: cpNhtHSChnhSaThngTinChiTitCaHSNgiMtTch
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Họ tên mới.'
+                  example: architecto
+                gender:
+                  type: string
+                  description: 'Giới tính.'
+                  example: architecto
+                birth_date:
+                  type: date
+                  description: 'Ngày sinh.'
+                  example: architecto
+                  nullable: true
+                last_seen_date:
+                  type: date
+                  description: 'Ngày nhìn thấy cuối.'
+                  example: architecto
+                last_seen_location:
+                  type: string
+                  description: 'Địa điểm.'
+                  example: architecto
+                description:
+                  type: string
+                  description: 'Mô tả.'
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                status:
+                  type: string
+                  description: 'Trạng thái (missing/found).'
+                  example: architecto
+    delete:
+      summary: "Xóa hồ sơ\n* Xóa vĩnh viễn hồ sơ và dữ liệu liên quan (Ảnh, Manh mối). Dành cho Admin."
+      operationId: xaHSXaVnhVinHSVDLiuLinQuannhManhMiDnhChoAdmin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID của hồ sơ.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/my-missing-persons:
+    get:
+      summary: "Bài đăng của tôi\n* Lấy danh sách các hồ sơ do chính người dùng hiện tại đã đăng."
+      operationId: bingCaTiLyDanhSchCcHSDoChnhNgiDngHinTing
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+  '/api/missing-persons/{id}/status':
+    put:
+      summary: "Cập nhật trạng thái Tìm thấy\n* Đánh dấu hồ sơ này là đã tìm thấy (Found)."
+      operationId: cpNhtTrngThiTmThynhDuHSNyLTmThyFound
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý hồ sơ người mất tích'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID của hồ sơ.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/user/{id}':
+    put:
+      summary: 'Cập nhật người dùng (Admin)'
+      operationId: cpNhtNgiDngAdmin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý người dùng'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Tên.
+                  example: architecto
+                email:
+                  type: string
+                  description: Email.
+                  example: gbailey@example.net
+                phone:
+                  type: string
+                  description: 'Số điện thoại.'
+                  example: architecto
+                  nullable: true
+                role:
+                  type: string
+                  description: 'Quyền (admin/user).'
+                  example: architecto
+    delete:
+      summary: 'Xóa người dùng'
+      operationId: xaNgiDng
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý người dùng'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID người dùng.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/user/{id}/password':
+    put:
+      summary: 'Đổi mật khẩu'
+      operationId: iMtKhu
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý người dùng'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_password:
+                  type: string
+                  description: 'Mật khẩu hiện tại.'
+                  example: architecto
+                new_password:
+                  type: string
+                  description: 'Mật khẩu mới (min 6 ký tự).'
+                  example: architecto
+                new_password_confirmation:
+                  type: string
+                  description: 'Xác nhận mật khẩu mới.'
+                  example: architecto
+              required:
+                - current_password
+                - new_password
+                - new_password_confirmation
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID của bạn.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  /api/user:
+    get:
+      summary: "Danh sách người dùng\n* (Admin) Lấy toàn bộ danh sách tài khoản trên hệ thống."
+      operationId: danhSchNgiDngAdminLyTonBDanhSchTiKhonTrnHThng
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Quản lý người dùng'
+    post:
+      summary: "Tạo người dùng mới\n* (Admin) Tạo tài khoản mới thủ công."
+      operationId: toNgiDngMiAdminToTiKhonMiThCng
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý người dùng'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Tên người dùng.'
+                  example: 'Admin Test'
+                email:
+                  type: string
+                  description: 'Email duy nhất.'
+                  example: admin@test.com
+              required:
+                - name
+                - email
+  /api/images:
+    post:
+      summary: "Thêm ảnh mới\n* Lưu đường dẫn ảnh vào cơ sở dữ liệu cho một hồ sơ cụ thể."
+      operationId: thmnhMiLungDnnhVoCSDLiuChoMtHSCTh
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý ảnh'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                missing_person_id:
+                  type: integer
+                  description: 'ID của hồ sơ người mất tích.'
+                  example: 1
+                image_url:
+                  type: string
+                  description: 'Đường dẫn URL của ảnh.'
+                  example: 'https://example.com/image.jpg'
+              required:
+                - missing_person_id
+                - image_url
+  '/api/images/{id}':
+    delete:
+      summary: 'Xóa ảnh'
+      operationId: xanh
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Quản lý ảnh'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'ID của ảnh cần xóa.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/login:
+    post:
+      summary: 'Đăng nhập'
+      operationId: ngNhp
+      description: '* Xác thực người dùng và trả về JWT token.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Xác thực tài khoản'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Email đã đăng ký.'
+                  example: user@example.com
+                password:
+                  type: string
+                  description: 'Mật khẩu tài khoản.'
+                  example: password123
+              required:
+                - email
+                - password
+      security: []
+  /api/register:
+    post:
+      summary: 'Đăng ký tài khoản'
+      operationId: ngKTiKhon
+      description: "* Tạo tài khoản mới cho người dùng. Mặc định vai trò sẽ là 'user'."
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Xác thực tài khoản'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Tên người dùng.'
+                  example: 'Nguyễn Văn A'
+                email:
+                  type: string
+                  description: 'Email dùng để đăng nhập (duy nhất).'
+                  example: user@example.com
+                password:
+                  type: string
+                  description: 'Mật khẩu.'
+                  example: password123
+                phone:
+                  type: string
+                  description: 'Số điện thoại liên hệ.'
+                  example: '0901234567'
+                  nullable: true
+              required:
+                - name
+                - email
+                - password
+      security: []
+  /api/me:
+    get:
+      summary: 'Thông tin cá nhân (Me)'
+      operationId: thngTinCNhnMe
+      description: '* Lấy thông tin chi tiết của người dùng đang đăng nhập từ Token.'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Xác thực tài khoản'

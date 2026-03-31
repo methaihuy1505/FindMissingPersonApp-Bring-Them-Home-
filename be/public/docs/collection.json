@@ -1,0 +1,955 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel API Documentation",
+        "_postman_id": "0450be03-e5c8-4875-a390-a7850a615413",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "B\u00e1o c\u00e1o vi ph\u1ea1m",
+            "description": "\nAPI d\u00e0nh cho vi\u1ec7c g\u1eedi v\u00e0 qu\u1ea3n l\u00fd c\u00e1c b\u00e1o c\u00e1o vi ph\u1ea1m li\u00ean quan \u0111\u1ebfn h\u1ed3 s\u01a1.",
+            "item": [
+                {
+                    "name": "G\u1eedi b\u00e1o c\u00e1o\n* Ng\u01b0\u1eddi d\u00f9ng g\u1eedi n\u1ed9i dung b\u00e1o c\u00e1o vi ph\u1ea1m cho m\u1ed9t h\u1ed3 s\u01a1 c\u1ee5 th\u1ec3.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/reports",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/reports"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":1,\"missing_person_id\":5,\"report_message\":\"H\u1ed3 s\u01a1 c\u00f3 ch\u1ee9a th\u00f4ng tin sai l\u1ec7ch.\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Danh s\u00e1ch b\u00e1o c\u00e1o\n* L\u1ea5y to\u00e0n b\u1ed9 danh s\u00e1ch b\u00e1o c\u00e1o vi ph\u1ea1m k\u00e8m th\u00f4ng tin ng\u01b0\u1eddi b\u00e1o v\u00e0 h\u1ed3 s\u01a1 b\u1ecb b\u00e1o c\u00e1o.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/reports",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/reports"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0110\u00f3ng b\u00e1o c\u00e1o\n* X\u00f3a b\u00e1o c\u00e1o sau khi \u0111\u00e3 \u0111\u01b0\u1ee3c Admin x\u1eed l\u00fd.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/reports\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/reports\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a b\u00e1o c\u00e1o."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Manh m\u1ed1i (Sightings)",
+            "description": "\nAPI qu\u1ea3n l\u00fd c\u00e1c th\u00f4ng tin manh m\u1ed1i nh\u00ecn th\u1ea5y ng\u01b0\u1eddi m\u1ea5t t\u00edch t\u1eeb c\u1ed9ng \u0111\u1ed3ng.",
+            "item": [
+                {
+                    "name": "L\u1ea5y manh m\u1ed1i theo ng\u01b0\u1eddi m\u1ea5t t\u00edch\n* L\u1ea5y danh s\u00e1ch t\u1ea5t c\u1ea3 manh m\u1ed1i c\u1ee7a m\u1ed9t h\u1ed3 s\u01a1 c\u1ee5 th\u1ec3.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/sightings\/:person_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/sightings\/:person_id",
+                            "variable": [
+                                {
+                                    "id": "person_id",
+                                    "key": "person_id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a h\u1ed3 s\u01a1 ng\u01b0\u1eddi m\u1ea5t t\u00edch."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"id\":9,\"missing_person_id\":1,\"reported_by\":10,\"location\":\"test\",\"description\":\"test\",\"sighting_date\":\"2026-04-01\",\"created_at\":\"2026-03-31 10:23:05\",\"updated_at\":\"2026-03-31 10:23:05\",\"reporter\":{\"id\":10,\"name\":\"a\",\"email\":\"admin@test.com\",\"phone\":\"123\",\"role\":\"admin\",\"created_at\":\"2026-03-31 08:53:17\",\"updated_at\":null}},{\"id\":2,\"missing_person_id\":1,\"reported_by\":null,\"location\":\"District 3\",\"description\":\"I saw someone looking like him near the park\",\"sighting_date\":\"2026-03-31\",\"created_at\":\"2026-03-31 09:27:29\",\"updated_at\":\"2026-03-31 09:27:29\",\"reporter\":null},{\"id\":7,\"missing_person_id\":1,\"reported_by\":10,\"location\":\"qu\\u1eadn 8\",\"description\":\"g\\u1ea7n c\\u1ea7u ch\\u00e0 v\\u00e0\",\"sighting_date\":\"2026-03-29\",\"created_at\":\"2026-03-31 10:20:19\",\"updated_at\":\"2026-03-31 10:20:19\",\"reporter\":{\"id\":10,\"name\":\"a\",\"email\":\"admin@test.com\",\"phone\":\"123\",\"role\":\"admin\",\"created_at\":\"2026-03-31 08:53:17\",\"updated_at\":null}},{\"id\":17,\"missing_person_id\":1,\"reported_by\":10,\"location\":\"Iran\",\"description\":\"\\u0110ang va\\u0301c t\\u00ean l\\u01b0\\u0309a cha\\u0323y va\\u0300o nha\\u0300\",\"sighting_date\":\"2026-03-01\",\"created_at\":\"2026-03-31 12:44:39\",\"updated_at\":\"2026-03-31 12:44:39\",\"reporter\":{\"id\":10,\"name\":\"a\",\"email\":\"admin@test.com\",\"phone\":\"123\",\"role\":\"admin\",\"created_at\":\"2026-03-31 08:53:17\",\"updated_at\":null}},{\"id\":1,\"missing_person_id\":1,\"reported_by\":2,\"location\":\"District 1\",\"description\":\"Looks similar to missing person\",\"sighting_date\":\"2025-10-12\",\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":\"2026-03-31 07:44:43\",\"reporter\":{\"id\":2,\"name\":\"Tran Thi B\",\"email\":\"b@gmail.com\",\"phone\":\"0900000002\",\"role\":\"admin\",\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":null}}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "G\u1eedi manh m\u1ed1i m\u1edbi\n* L\u01b0u th\u00f4ng tin manh m\u1ed1i nh\u00ecn th\u1ea5y ng\u01b0\u1eddi m\u1ea5t t\u00edch.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/sightings",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/sightings"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"missing_person_id\":1,\"reported_by\":2,\"location\":\"C\u00f4ng vi\u00ean Tao \u0110\u00e0n, Qu\u1eadn 1\",\"description\":\"M\u1eb7c \u00e1o thun xanh.\",\"sighting_date\":\"2024-03-15\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "C\u1eadp nh\u1eadt manh m\u1ed1i",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/sightings\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/sightings\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a manh m\u1ed1i."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"location\":\"architecto\",\"description\":\"Eius et animi quos velit et.\",\"sighting_date\":\"architecto\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "X\u00f3a manh m\u1ed1i",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/sightings\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/sightings\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a manh m\u1ed1i."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Qu\u1ea3n l\u00fd h\u1ed3 s\u01a1 ng\u01b0\u1eddi m\u1ea5t t\u00edch",
+            "description": "* C\u00e1c API li\u00ean quan \u0111\u1ebfn vi\u1ec7c t\u1ea1o, hi\u1ec3n th\u1ecb v\u00e0 c\u1eadp nh\u1eadt h\u1ed3 s\u01a1 ng\u01b0\u1eddi m\u1ea5t t\u00edch.",
+            "item": [
+                {
+                    "name": "Danh s\u00e1ch h\u1ed3 s\u01a1\n* L\u1ea5y to\u00e0n b\u1ed9 danh s\u00e1ch ng\u01b0\u1eddi m\u1ea5t t\u00edch, m\u1eb7c \u0111\u1ecbnh s\u1eafp x\u1ebfp theo tin m\u1edbi nh\u1ea5t.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/missing-persons",
+                            "query": [
+                                {
+                                    "key": "status",
+                                    "value": "missing",
+                                    "description": "L\u1ecdc theo tr\u1ea1ng th\u00e1i ('missing', 'found' ho\u1eb7c 'all').",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/missing-persons?status=missing"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"id\":10,\"full_name\":\"c\\u00f4 b\\u00e9 b\\u00e1n di\\u00eam\",\"gender\":\"female\",\"birth_date\":null,\"last_seen_date\":\"2026-03-30\",\"last_seen_location\":\"c\\u00f4ng vi\\u00ean qu\\u1eadn 1\",\"description\":\"cao 1m5\",\"status\":\"missing\",\"created_by\":11,\"created_at\":\"2026-03-31 16:16:59\",\"updated_at\":\"2026-03-31 16:16:59\",\"images\":[{\"id\":8,\"missing_person_id\":10,\"image_url\":\"https:\\\/\\\/cdn.baohatinh.vn\\\/images\\\/4fcbd37d77834e81989cc9830f65b41a8914df4a745ff7c7f6b5d0d9fc878fbf93a484348654a2504a80cf66f8cca6ec\\\/127d1100219t99411l0.jpg\",\"uploaded_at\":\"2026-03-31 16:16:59\",\"updated_at\":\"2026-03-31 16:16:59\",\"created_at\":\"2026-03-31 16:16:59\"}]},{\"id\":8,\"full_name\":\"Ha Van C\",\"gender\":\"other\",\"birth_date\":null,\"last_seen_date\":\"2026-01-28\",\"last_seen_location\":\"Amazon\",\"description\":null,\"status\":\"missing\",\"created_by\":10,\"created_at\":\"2026-03-31 12:49:08\",\"updated_at\":\"2026-03-31 16:40:12\",\"images\":[{\"id\":6,\"missing_person_id\":8,\"image_url\":\"https:\\\/\\\/cdn2.tuoitre.vn\\\/2019\\\/5\\\/8\\\/avatar-publicitystill-h2019-1557284559744252594756.jpg\",\"uploaded_at\":\"2026-03-31 12:49:09\",\"updated_at\":\"2026-03-31 12:49:09\",\"created_at\":\"2026-03-31 12:49:09\"}]},{\"id\":1,\"full_name\":\"Nguyen Van D\",\"gender\":\"male\",\"birth_date\":\"2004-05-15\",\"last_seen_date\":\"2025-10-10\",\"last_seen_location\":\"Ho Chi Minh City\",\"description\":\"Last seen wearing blue shirt\",\"status\":\"missing\",\"created_by\":null,\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":\"2026-03-31 17:14:08\",\"images\":[{\"id\":4,\"missing_person_id\":1,\"image_url\":\"https:\\\/\\\/cafefcdn.com\\\/203337114487263232\\\/2024\\\/12\\\/11\\\/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png\",\"uploaded_at\":\"2026-03-31 12:19:06\",\"updated_at\":\"2026-03-31 12:19:06\",\"created_at\":\"2026-03-31 12:19:06\"}]},{\"id\":2,\"full_name\":\"Tran Thi E\",\"gender\":\"female\",\"birth_date\":null,\"last_seen_date\":\"2025-09-15\",\"last_seen_location\":\"Ha Noi\",\"description\":\"Missing near bus station\",\"status\":\"missing\",\"created_by\":2,\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":\"2026-03-31 07:45:18\",\"images\":[{\"id\":3,\"missing_person_id\":2,\"image_url\":\"https:\\\/\\\/cafefcdn.com\\\/203337114487263232\\\/2024\\\/11\\\/25\\\/4675052799582946396645801877579821328676080n-1732499995523-1732499995682540076027.jpg\",\"uploaded_at\":\"2026-03-31 12:18:15\",\"updated_at\":\"2026-03-31 12:18:15\",\"created_at\":\"2026-03-31 12:18:15\"}]}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Chi ti\u1ebft h\u1ed3 s\u01a1\n* L\u1ea5y th\u00f4ng tin chi ti\u1ebft m\u1ed9t h\u1ed3 s\u01a1 k\u00e8m \u1ea3nh, ng\u01b0\u1eddi \u0111\u0103ng v\u00e0 c\u00e1c manh m\u1ed1i li\u00ean quan.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/missing-persons\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/missing-persons\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a h\u1ed3 s\u01a1."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"id\":1,\"full_name\":\"Nguyen Van D\",\"gender\":\"male\",\"birth_date\":\"2004-05-15\",\"last_seen_date\":\"2025-10-10\",\"last_seen_location\":\"Ho Chi Minh City\",\"description\":\"Last seen wearing blue shirt\",\"status\":\"missing\",\"created_by\":null,\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":\"2026-03-31 17:14:08\",\"creator\":null,\"images\":[{\"id\":4,\"missing_person_id\":1,\"image_url\":\"https:\\\/\\\/cafefcdn.com\\\/203337114487263232\\\/2024\\\/12\\\/11\\\/screen-shot-2024-12-11-at-163229-1733922888420-17339228885421279947301.png\",\"uploaded_at\":\"2026-03-31 12:19:06\",\"updated_at\":\"2026-03-31 12:19:06\",\"created_at\":\"2026-03-31 12:19:06\"}],\"sightings\":[{\"id\":1,\"missing_person_id\":1,\"reported_by\":2,\"location\":\"District 1\",\"description\":\"Looks similar to missing person\",\"sighting_date\":\"2025-10-12\",\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":\"2026-03-31 07:44:43\",\"reporter\":{\"id\":2,\"name\":\"Tran Thi B\",\"email\":\"b@gmail.com\",\"phone\":\"0900000002\",\"role\":\"admin\",\"created_at\":\"2026-03-13 13:23:15\",\"updated_at\":null}},{\"id\":2,\"missing_person_id\":1,\"reported_by\":null,\"location\":\"District 3\",\"description\":\"I saw someone looking like him near the park\",\"sighting_date\":\"2026-03-31\",\"created_at\":\"2026-03-31 09:27:29\",\"updated_at\":\"2026-03-31 09:27:29\",\"reporter\":null},{\"id\":7,\"missing_person_id\":1,\"reported_by\":10,\"location\":\"qu\\u1eadn 8\",\"description\":\"g\\u1ea7n c\\u1ea7u ch\\u00e0 v\\u00e0\",\"sighting_date\":\"2026-03-29\",\"created_at\":\"2026-03-31 10:20:19\",\"updated_at\":\"2026-03-31 10:20:19\",\"reporter\":{\"id\":10,\"name\":\"a\",\"email\":\"admin@test.com\",\"phone\":\"123\",\"role\":\"admin\",\"created_at\":\"2026-03-31 08:53:17\",\"updated_at\":null}},{\"id\":9,\"missing_person_id\":1,\"reported_by\":10,\"location\":\"test\",\"description\":\"test\",\"sighting_date\":\"2026-04-01\",\"created_at\":\"2026-03-31 10:23:05\",\"updated_at\":\"2026-03-31 10:23:05\",\"reporter\":{\"id\":10,\"name\":\"a\",\"email\":\"admin@test.com\",\"phone\":\"123\",\"role\":\"admin\",\"created_at\":\"2026-03-31 08:53:17\",\"updated_at\":null}},{\"id\":17,\"missing_person_id\":1,\"reported_by\":10,\"location\":\"Iran\",\"description\":\"\\u0110ang va\\u0301c t\\u00ean l\\u01b0\\u0309a cha\\u0323y va\\u0300o nha\\u0300\",\"sighting_date\":\"2026-03-01\",\"created_at\":\"2026-03-31 12:44:39\",\"updated_at\":\"2026-03-31 12:44:39\",\"reporter\":{\"id\":10,\"name\":\"a\",\"email\":\"admin@test.com\",\"phone\":\"123\",\"role\":\"admin\",\"created_at\":\"2026-03-31 08:53:17\",\"updated_at\":null}}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "B\u00e0i \u0111\u0103ng c\u1ee7a t\u00f4i\n* L\u1ea5y danh s\u00e1ch c\u00e1c h\u1ed3 s\u01a1 do ch\u00ednh ng\u01b0\u1eddi d\u00f9ng hi\u1ec7n t\u1ea1i \u0111\u00e3 \u0111\u0103ng.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/my-missing-persons",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/my-missing-persons"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0110\u0103ng h\u1ed3 s\u01a1 m\u1edbi\n* L\u01b0u th\u00f4ng tin ng\u01b0\u1eddi m\u1ea5t t\u00edch v\u00e0 \u1ea3nh \u0111\u00ednh k\u00e8m (n\u1ebfu c\u00f3).",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/missing-persons",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/missing-persons"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"full_name\":\"Nguy\u1ec5n V\u0103n A\",\"gender\":\"male\",\"birth_date\":\"1995-05-20\",\"last_seen_date\":\"2024-01-15\",\"last_seen_location\":\"Qu\u1eadn 1, TP.HCM\",\"description\":\"Cao 1m7, n\u1ed1t ru\u1ed3i b\u00ean tr\u00e1i.\",\"status\":\"missing\",\"created_by\":1,\"image_url\":\"https:\\\/\\\/example.com\\\/photo.jpg\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "C\u1eadp nh\u1eadt h\u1ed3 s\u01a1\n* Ch\u1ec9nh s\u1eeda th\u00f4ng tin chi ti\u1ebft c\u1ee7a h\u1ed3 s\u01a1 ng\u01b0\u1eddi m\u1ea5t t\u00edch.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/missing-persons\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/missing-persons\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a h\u1ed3 s\u01a1."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"full_name\":\"architecto\",\"gender\":\"architecto\",\"birth_date\":\"architecto\",\"last_seen_date\":\"architecto\",\"last_seen_location\":\"architecto\",\"description\":\"Eius et animi quos velit et.\",\"status\":\"architecto\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "C\u1eadp nh\u1eadt tr\u1ea1ng th\u00e1i T\u00ecm th\u1ea5y\n* \u0110\u00e1nh d\u1ea5u h\u1ed3 s\u01a1 n\u00e0y l\u00e0 \u0111\u00e3 t\u00ecm th\u1ea5y (Found).",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/missing-persons\/:id\/status",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/missing-persons\/:id\/status",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a h\u1ed3 s\u01a1."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "X\u00f3a h\u1ed3 s\u01a1\n* X\u00f3a v\u0129nh vi\u1ec5n h\u1ed3 s\u01a1 v\u00e0 d\u1eef li\u1ec7u li\u00ean quan (\u1ea2nh, Manh m\u1ed1i). D\u00e0nh cho Admin.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/missing-persons\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/missing-persons\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a h\u1ed3 s\u01a1."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Qu\u1ea3n l\u00fd ng\u01b0\u1eddi d\u00f9ng",
+            "description": "\nAPI d\u00e0nh cho qu\u1ea3n tr\u1ecb vi\u00ean qu\u1ea3n l\u00fd danh s\u00e1ch ng\u01b0\u1eddi d\u00f9ng v\u00e0 c\u00e1 nh\u00e2n ng\u01b0\u1eddi d\u00f9ng qu\u1ea3n l\u00fd h\u1ed3 s\u01a1.",
+            "item": [
+                {
+                    "name": "C\u1eadp nh\u1eadt ng\u01b0\u1eddi d\u00f9ng (Admin)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "16",
+                                    "description": "ID ng\u01b0\u1eddi d\u00f9ng."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"architecto\",\"email\":\"gbailey@example.net\",\"phone\":\"architecto\",\"role\":\"architecto\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "\u0110\u1ed5i m\u1eadt kh\u1ea9u",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/:id\/password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/:id\/password",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "16",
+                                    "description": "ID c\u1ee7a b\u1ea1n."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"current_password\":\"architecto\",\"new_password\":\"architecto\",\"new_password_confirmation\":\"architecto\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Danh s\u00e1ch ng\u01b0\u1eddi d\u00f9ng\n* (Admin) L\u1ea5y to\u00e0n b\u1ed9 danh s\u00e1ch t\u00e0i kho\u1ea3n tr\u00ean h\u1ec7 th\u1ed1ng.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "T\u1ea1o ng\u01b0\u1eddi d\u00f9ng m\u1edbi\n* (Admin) T\u1ea1o t\u00e0i kho\u1ea3n m\u1edbi th\u1ee7 c\u00f4ng.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Admin Test\",\"email\":\"admin@test.com\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "X\u00f3a ng\u01b0\u1eddi d\u00f9ng",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "16",
+                                    "description": "ID ng\u01b0\u1eddi d\u00f9ng."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Qu\u1ea3n l\u00fd \u1ea3nh",
+            "description": "\nAPI x\u1eed l\u00fd c\u00e1c h\u00ecnh \u1ea3nh li\u00ean quan \u0111\u1ebfn h\u1ed3 s\u01a1 ng\u01b0\u1eddi m\u1ea5t t\u00edch.",
+            "item": [
+                {
+                    "name": "Th\u00eam \u1ea3nh m\u1edbi\n* L\u01b0u \u0111\u01b0\u1eddng d\u1eabn \u1ea3nh v\u00e0o c\u01a1 s\u1edf d\u1eef li\u1ec7u cho m\u1ed9t h\u1ed3 s\u01a1 c\u1ee5 th\u1ec3.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/images",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/images"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"missing_person_id\":1,\"image_url\":\"https:\\\/\\\/example.com\\\/image.jpg\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "X\u00f3a \u1ea3nh",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/images\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/images\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID c\u1ee7a \u1ea3nh c\u1ea7n x\u00f3a."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "X\u00e1c th\u1ef1c t\u00e0i kho\u1ea3n",
+            "description": "\nAPI d\u00e0nh cho vi\u1ec7c qu\u1ea3n l\u00fd t\u00e0i kho\u1ea3n ng\u01b0\u1eddi d\u00f9ng, \u0111\u0103ng k\u00fd v\u00e0 \u0111\u0103ng nh\u1eadp.",
+            "item": [
+                {
+                    "name": "\u0110\u0103ng nh\u1eadp",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"user@example.com\",\"password\":\"password123\"}"
+                        },
+                        "description": "* X\u00e1c th\u1ef1c ng\u01b0\u1eddi d\u00f9ng v\u00e0 tr\u1ea3 v\u1ec1 JWT token.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "\u0110\u0103ng k\u00fd t\u00e0i kho\u1ea3n",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Nguy\u1ec5n V\u0103n A\",\"email\":\"user@example.com\",\"password\":\"password123\",\"phone\":\"0901234567\"}"
+                        },
+                        "description": "* T\u1ea1o t\u00e0i kho\u1ea3n m\u1edbi cho ng\u01b0\u1eddi d\u00f9ng. M\u1eb7c \u0111\u1ecbnh vai tr\u00f2 s\u1ebd l\u00e0 'user'.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Th\u00f4ng tin c\u00e1 nh\u00e2n (Me)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/me"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "* L\u1ea5y th\u00f4ng tin chi ti\u1ebft c\u1ee7a ng\u01b0\u1eddi d\u00f9ng \u0111ang \u0111\u0103ng nh\u1eadp t\u1eeb Token."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}

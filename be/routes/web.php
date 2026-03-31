@@ -3,5 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('scribe.index');
+
+    return file_get_contents(public_path('docs/index.html'));
 });
